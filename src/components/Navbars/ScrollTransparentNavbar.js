@@ -2,14 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 // reactstrap components
 import {
+  Button,
   Collapse,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
+  NavbarBrand,
   Navbar,
+  NavItem,
   Nav,
   Container,
+  UncontrolledTooltip,
 } from "reactstrap";
 
 function ScrollTransparentNavbar() {
@@ -19,6 +23,11 @@ function ScrollTransparentNavbar() {
       ? ""
       : " navbar-transparent"
   );
+  const [buyButtonColor, setBuyButtonColor] = React.useState(
+    (document.documentElement.scrollTop > 499 || document.body.scrollTop) > 499
+      ? "info"
+      : "neutral"
+  );
   React.useEffect(() => {
     const updateNavbarColor = () => {
       if (
@@ -26,11 +35,13 @@ function ScrollTransparentNavbar() {
         document.body.scrollTop > 499
       ) {
         setNavbarColor("");
+        setBuyButtonColor("info");
       } else if (
         document.documentElement.scrollTop < 500 ||
         document.body.scrollTop < 500
       ) {
         setNavbarColor(" navbar-transparent");
+        setBuyButtonColor("neutral");
       }
     };
     window.addEventListener("scroll", updateNavbarColor);
@@ -52,6 +63,12 @@ function ScrollTransparentNavbar() {
       <Navbar className={"fixed-top" + navbarColor} color="white" expand="lg">
         <Container>
           <div className="navbar-translate">
+            <NavbarBrand to="/" tag={Link} id="navbar-brand">
+              Now Ui Kit PRO React
+            </NavbarBrand>
+            <UncontrolledTooltip target="navbar-brand">
+              Designed by Invision. Coded by Creative Tim
+            </UncontrolledTooltip>
             <button
               onClick={() => {
                 document.documentElement.classList.toggle("nav-open");
@@ -67,7 +84,7 @@ function ScrollTransparentNavbar() {
           </div>
           <Collapse isOpen={collapseOpen} navbar>
             <Nav className="ml-auto" id="ceva" navbar>
-              {/* <UncontrolledDropdown nav>
+              <UncontrolledDropdown nav>
                 <DropdownToggle
                   caret
                   color="default"
@@ -211,74 +228,17 @@ function ScrollTransparentNavbar() {
                     Signup Page
                   </DropdownItem>
                 </DropdownMenu>
-              </UncontrolledDropdown> */}
-              <UncontrolledDropdown nav>
-                <DropdownToggle
-                  caret
-                  color="default"
-                  data-toggle="dropdown"
-                  id="navbarDropdownMenuLink1"
-                  nav
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <i className="now-ui-icons design_app"></i>
-                  <p>Manual de usuario</p>
-                </DropdownToggle>
-                <DropdownMenu aria-labelledby="navbarDropdownMenuLink1" right>
-                  <DropdownItem to="/" tag={Link}>
-                    <i className="now-ui-icons design_image"></i>
-                    Administrador
-                  </DropdownItem>
-                  <DropdownItem to="/index" tag={Link}>
-                    <i className="now-ui-icons business_chart-pie-36"></i>
-                    Moderador
-                  </DropdownItem>
-                  <DropdownItem
-                    href="https://demos.creative-tim.com/now-ui-kit-pro-react/#/documentation/introduction?ref=nuk-pro-react-scroll-transparent-navbar"
-                    target="_blank"
-                  >
-                    <i className="now-ui-icons design_bullet-list-67"></i>
-                    Usuario
-                  </DropdownItem>
-                  <DropdownItem
-                    href="https://demos.creative-tim.com/now-ui-kit-pro-react/#/documentation/introduction?ref=nuk-pro-react-scroll-transparent-navbar"
-                    target="_blank"
-                  >
-                    <i className="now-ui-icons design_bullet-list-67"></i>
-                    Auditor
-                  </DropdownItem>
-                </DropdownMenu>
               </UncontrolledDropdown>
-              <UncontrolledDropdown nav>
-                <DropdownToggle
-                  color="default"
-                  data-toggle="dropdown"
-                  id="navbarDropdownMenuLink"
-                  nav
-                  onClick={() => (window.location.href = "http://172.16.1.13")}
+              <NavItem>
+                <Button
+                  className="nav-link btn-default"
+                  color={buyButtonColor}
+                  href="https://www.creative-tim.com/product/now-ui-kit-pro-react?ref=nuk-pro-react-scroll-transparent-navbar"
+                  target="_blank"
                 >
-                  <i
-                    aria-hidden={true}
-                    className="now-ui-icons files_paper"
-                  ></i>
-                  <p>Documentación</p>
-                </DropdownToggle>
-              </UncontrolledDropdown>
-              <UncontrolledDropdown nav>
-                <DropdownToggle
-                  color="default"
-                  data-toggle="dropdown"
-                  id="navbarDropdownMenuLink"
-                  nav
-                  onClick={() => (window.location.href = "http://172.16.1.13")}
-                >
-                  <i
-                    aria-hidden={true}
-                    className="now-ui-icons files_paper"
-                  ></i>
-                  <p>Chermina</p>
-                </DropdownToggle>
-              </UncontrolledDropdown>
+                  <p>Buy Now</p>
+                </Button>
+              </NavItem>
             </Nav>
           </Collapse>
         </Container>
