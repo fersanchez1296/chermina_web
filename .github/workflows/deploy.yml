@@ -1,0 +1,33 @@
+name: Deploy React App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Construir la aplicación
+        run: npm run build
+
+      - name: Mover archivos a /var/www/html/web
+        run: |
+          sudo rm -rf /var/www/html/web/*
+          sudo cp -r build/* /var/www/html/web/
+
+      - name: Reiniciar servidor web
+        run: sudo systemctl restart nginx
